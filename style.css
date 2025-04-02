@@ -1,102 +1,257 @@
-* {
+/* Define que todos os elementos da página não terão margens (espaços externos) 
+   nem preenchimentos internos e que seu tamanho será calculado corretamente. */
+   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Define o estilo do corpo (fundo) da página */
 body {
+    /* A página sempre ocupará toda a altura da tela */
     height: 100vh;
+    
+    /* Organiza os elementos um abaixo do outro */
     display: flex;
     flex-direction: column;
-    font-family:Georgia, 'Times New Roman', Times, serif;
-    background: linear-gradient(to bottom, rgba(168, 167, 167, 0.742), rgba(168, 167, 167, 0.722)), url(./assets/images/pokemon.png) no-repeat center center fixed;
+    
+    /* Escolhe a fonte das letras */
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
+    /* Coloca um fundo com um efeito de degradê + uma imagem */
+    background: linear-gradient(to bottom, rgba(168, 167, 167, 0.742), rgba(168, 167, 167, 0.722)), 
+                url(./assets/images/pokemon.png) no-repeat center center fixed;
+    
+    /* Ajusta o tamanho da imagem para cobrir toda a tela */
     background-size: cover;
+    
+    /* Organiza os elementos para começarem do topo e ficarem centralizados */
+    justify-content: flex-start;
+    align-items: center;
 }
 
+/* Adiciona um efeito de desfoque na imagem de fundo */
+body::before {
+    content: ""; /* Elemento vazio, apenas para efeito visual */
+    position: fixed; /* Fixa no fundo da página */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Aplica novamente a imagem de fundo */
+    background: url(./assets/images/pokemon.png) no-repeat center center fixed;
+    background-size: cover;
+    
+    /* Deixa a imagem borrada */
+    filter: blur(4px);
+    
+    /* Coloca essa camada no fundo, atrás de tudo */
+    z-index: -1;
+}
+
+/* Configuração do cabeçalho */
 header {
-    height: 100px;
-    background-color:#188fb63f;
-    text-align: center;
-    align-content: center;
-    padding: 2%;
+    display: flex; /* Organiza os itens em linha */
+    justify-content: center; /* Centraliza os itens */
+    width: 100%;
 }
 
-main {
-    flex: 1;
+/* Configuração da barra de navegação */
+nav {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-direction: row; /* Deixa os itens lado a lado */
+    justify-content: center;
+    align-items: center;
+    
+    /* Cor de fundo azul */
+    background-color: #10539a;
+    
+    /* Espaçamento interno */
+    padding: 10px 30px;
+    
+    /* Altura da barra */
+    height: 70px;
+    
+    /* Barra ocupa toda a largura da tela */
+    width: 100%;
+    
+    /* Posição relativa (pode ser movida dentro do cabeçalho) */
+    position: relative;
+    
+    /* Borda levemente transparente */
+    border: 2px solid #00000049;
+}
+
+/* Logo dentro da barra de navegação */
+nav .logo-img {
+    position: absolute; /* Posição fixa dentro do menu */
+    top: 3px; /* Distância do topo */
+    left: 80px; /* Distância da esquerda */
+    width: 55px; /* Largura da imagem */
+    height: auto; /* Ajusta a altura automaticamente */
+}
+
+/* Configuração da lista de links do menu */
+nav ul {
+    list-style-type: none; /* Remove os marcadores da lista */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Deixa os links em linha */
+    gap: 60px; /* Espaço entre os links */
+    justify-content: center;
+    margin-top: 3px;
+}
+
+/* Configuração de cada link */
+nav ul li a {
+    color: white; /* Deixa o texto branco */
+    text-decoration: none; /* Remove o sublinhado */
+    font-size: 13px;
+    padding: 80px;
+    
+    /* Fonte com estilo retrô */
+    font-family: 'Press Start 2P', sans-serif;
+}
+
+/* Muda a cor do link ao passar o mouse */
+nav ul li a:hover {
+    color: #FFD700; /* Cor dourada */
+}
+
+/* Configuração do conteúdo principal */
+main {
+    flex: 1; /* Ocupa o espaço disponível */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     padding: 30px;
-    flex-wrap: wrap;
-    gap: 10px;
+    width: 100%;
 }
 
-img {
+/* Configuração do espaço onde os cards (cartões) de Pokémon serão exibidos */
+.cards {
+    display: grid; /* Organiza os cards em uma grade */
+    grid-template-columns: repeat(4, 1fr); /* 4 colunas */
+    grid-template-rows: repeat(3, auto); /* 3 linhas automáticas */
+    gap: 1em; /* Espaço entre os cards */
+    max-width: 80%;
+    justify-content: center;
+}
+
+/* Configuração de cada card de Pokémon */
+.pokemon {
+    text-align: center; /* Centraliza o texto */
+    width: 250px; /* Largura fixa */
+    height: auto;
+    border-radius: 15px; /* Borda arredondada */
+    overflow: hidden; /* Impede que conteúdo vaze para fora */
+    transition: 0.5s; /* Suaviza os efeitos */
+}
+
+/* Configuração da imagem dentro dos cards */
+.pokemon img {
+    height: 280px; /* Altura fixa */
+    width: 100%;
+    max-width: 200px;
+    border-radius: 15px;
+    margin: 20px;
+    
+    /* Sombra ao redor da imagem */
+    box-shadow: #080000;
+    
+    /* Borda branca */
+    border: 5px solid #ffffff;
+}
+
+/* Quando o mouse passa sobre o card, ele aumenta de tamanho */
+.pokemon:hover {
+    transform: scale(1.05);
+}
+
+/* Quando o mouse passa sobre o card, o nome do Pokémon aparece */
+.pokemon:hover p {
+    opacity: 1; /* Faz o texto aparecer */
+    top: 50%; /* Move para o centro */
+    width: 65%;
+    
+    /* Cor de fundo azulada */
+    background-color: rgba(57, 135, 149, 0.878);
+}
+
+/* Quando o mouse passa sobre os cards, os que não estão selecionados ficam borrados */
+.cards:hover .pokemon:not(:hover) {
+    filter: blur(3px);
+}
+
+/* Estilo do texto dentro dos cards */
+p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
     border-radius: 5px;
+    
+    /* Posição inicial do texto (fora da área visível) */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Animação para aparecer suavemente */
+    transition: 1s;
+    opacity: 0;
 }
 
-img:hover {
-    box-shadow: 5px 5px 20px rgb(255, 255, 255);
-}
-
-
-.card {
-    width: 300px;
-    height: 450px;
-    background-color:#000000;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 3px 3px 5px #000000c5;
-    margin-bottom: 20px;
-    box-shadow: #000000;
-    display: block;
-}
-
-.card:hover {
-    transform: translateY(-20px) translate(5px, -5px);
-    box-shadow: 5px 5px 20px rgb(255, 255, 255);
-    background-color: rgba(93, 230, 184, 0.54);
-}
-
-.card img{
-    width: 270px;
-    height: 260px;
-}
-
-.card h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: rgb(255, 255, 255);
-}
-
-.card p {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.856);
-    text-shadow: rgb(255, 255, 255);
-}
-
-.cor {
-    width: 280px;
-    height: 420px;
-    background-color: #d48c06c8;
-    border-radius: 8px;
-}
-
-.cor:hover {
-    transform: translateY(-20px) translate(5px, -5px);
-    box-shadow: 5px 5px 20px rgb(255, 255, 255);
-    background-color: rgba(93, 230, 184, 0.54);
-}
-
+/* Configuração do rodapé */
 footer {
-    background-color: #ffffff42;
-    height: 50px;
-    color: #000000;
-    font-size: 30px;
-    text-align: center;
-    align-content: center;
-    font-size: 16px;
-    padding: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Cor de fundo azul */
+    background-color: #10539a;
+    
+    padding: 15px 30px;
+    height: 100px;
+    width: 100%;
+    
+    /* Borda levemente transparente */
+    border: 2px solid #00000049;
 }
 
+/* Organização do conteúdo do rodapé */
+.footer-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Organização das redes sociais */
+.redes-sociais {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Tamanho dos ícones das redes sociais */
+.redes-sociais a img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Aumenta o tamanho do ícone ao passar o mouse */
+.redes-sociais a img:hover {
+    transform: scale(1.3);
+}
+
+/* Configuração do texto do rodapé */
+footer h3 {
+    font-family: 'Press Start 2P', cursive; /* Fonte retrô */
+    color: #ffffff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    font-size: 12px;
+    align-items: center;
+    margin-left: 30px;
+}
